@@ -3,9 +3,14 @@ const { battleService } = require("../services/battle.service");
 const { registerBattleHandlers } = require("./battle.handlers");
 
 function attachSocket(server) {
+  const allowedOrigins = [
+    "http://localhost:4200",
+    "http://ec2-98-88-19-150.compute-1.amazonaws.com",
+  ];
+
   const io = new Server(server, {
     cors: {
-      origin: process.env.CLIENT_ORIGIN || "http://localhost:4200",
+      origin: allowedOrigins,
       methods: ["GET", "POST"],
       credentials: true,
     },
