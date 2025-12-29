@@ -3,18 +3,28 @@ const { battleService } = require("../services/battle.service");
 const { registerBattleHandlers } = require("./battle.handlers");
 
 function attachSocket(server) {
-  const allowedOrigins = [
-    "http://localhost:4200",
-    "http://ec2-98-88-19-150.compute-1.amazonaws.com",
-  ];
+const allowedOrigins = [
+  "http://localhost:4200",
+  "http://ec2-98-88-19-150.compute-1.amazonaws.com",
+];
 
   const io = new Server(server, {
     cors: {
-      origin: allowedOrigins,
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+
+        console.log("CORS blocked origin:", origin);
+        return callback(new Error("Not allowed by CORS"));
+      },
       methods: ["GET", "POST"],
       credentials: true,
     },
   });
+
 
   const queue = [];
   const sessionsBySocket = new Map();
