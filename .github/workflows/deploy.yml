@@ -32,14 +32,14 @@ jobs:
           pm2 startOrReload ecosystem.config.js 
           pm2 save
       - name: Health check with retries
-  run: |
-    for i in {1..10}; do
-      echo "Health check attempt $i..."
-      if curl -f http://127.0.0.1/health > /dev/null 2>&1; then
-        echo "Health check OK ✅"
-        exit 0
-      fi
-      sleep 3
-    done
-    echo "Health check failed after retries ❌"
-    exit 1
+        run: |
+          for i in {1..10}; do
+            echo "Health check attempt $i..."
+            if curl -f http://127.0.0.1/health > /dev/null 2>&1; then
+              echo "Health check OK ✅"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "Health check failed after retries ❌"
+          exit 1
