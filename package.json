@@ -1,5 +1,5 @@
 {
-  "name": "moongodb-first-proj",
+  "name": "pokedex-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
